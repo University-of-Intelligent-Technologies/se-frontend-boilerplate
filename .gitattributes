@@ -1,0 +1,8 @@
+# Check out text files with LF on every OS, including Windows with
+# core.autocrlf=true: Husky hooks are shell scripts that break with CRLF,
+# and Prettier is configured with endOfLine: "lf".
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
