@@ -143,6 +143,8 @@ const jsxA11yConfig = {
     "jsx-a11y": jsxA11yPlugin,
   },
   rules: {
+    // keep the recommended rules: a bare `rules` object would replace them
+    ...jsxA11yPlugin.flatConfigs.recommended.rules,
     "jsx-a11y/alt-text": [
       "error",
       { elements: ["img"], img: ["Image"] },
