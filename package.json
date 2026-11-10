@@ -16,6 +16,10 @@
   "license": "MIT",
   "version": "1.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "packageManager": "pnpm@10.34.9",
   "scripts": {
     "setup": "git init && npx husky init && npx playwright install && shx rm .husky/pre-commit",
     "format": "prettier \"src/**/*.{ts,tsx}\" --write",
