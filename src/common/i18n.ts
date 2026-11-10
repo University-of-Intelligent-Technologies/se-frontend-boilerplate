@@ -17,6 +17,11 @@ const i18nOptions: InitOptions<HttpBackendOptions> = {
 	ns: [defaultNS],
 	debug: !isProduction,
 	fallbackLng: "en",
+	// only languages that have translation files: without this the detector picks the
+	// browser language (e.g. uk-UA) and requests files that do not exist
+	supportedLngs: Object.keys(resources),
+	nonExplicitSupportedLngs: true,
+	load: "languageOnly",
 	interpolation: {
 		escapeValue: false, // not needed for react as it escapes by default
 	},
