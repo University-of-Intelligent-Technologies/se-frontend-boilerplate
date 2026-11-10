@@ -21,9 +21,11 @@ const i18nOptions: InitOptions<HttpBackendOptions> = {
 		escapeValue: false, // not needed for react as it escapes by default
 	},
 	backend: {
+		// absolute paths: relative ones resolve against the current URL and break
+		// on nested routes (e.g. /tasks/1 would request /tasks/locales/...)
 		loadPath: isProduction
-			? "locales/{{lng}}/translations.json"
-			: "src/assets/locales/{{lng}}/translations.json",
+			? `${import.meta.env.BASE_URL}locales/{{lng}}/translations.json`
+			: `${import.meta.env.BASE_URL}src/assets/locales/{{lng}}/translations.json`,
 	},
 };
 
