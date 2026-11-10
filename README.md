@@ -1,3 +1,54 @@
+# Швидкий старт (Windows)
+
+Це форк [vite-react-boilerplate](https://github.com/RicardoValdovinos/vite-react-boilerplate) для курсу «Конструювання програмного забезпечення». Що виправлено порівняно з оригіналом — у кінці цього розділу. Нижче, після лінії, — оригінальний README англійською.
+
+## 1. Встановіть інструменти
+
+- **Git for Windows** — <https://git-scm.com/download/win> (налаштування за замовчуванням підходять).
+- **Node.js 24 LTS** — <https://nodejs.org> (підійде й 22.13+). Перевірка в новому терміналі: `node -v`.
+- **pnpm** — у новому терміналі: `npm install -g pnpm@10`. Перевірка: `pnpm -v`.
+  (Альтернатива — `corepack enable`, але на Windows для цього потрібен термінал «від імені адміністратора».)
+
+## 2. Склонуйте й запустіть
+
+```bash
+git clone <адреса цього репозиторію>
+cd vite-react-boilerplate
+pnpm install
+pnpm dev
+```
+
+Відкрийте <http://localhost:5173>: має з'явитися привітання й кнопка `translate`, що перемикає мову.
+
+## 3. Адреса бекенду
+
+Адреса API задана в `.env`: `VITE_API_URL="http://localhost:4000"` — це бекенд [typeorm-express-typescript](https://github.com/mkosir/typeorm-express-typescript), його маршрути починаються з `/v1`. У коді: `` `${import.meta.env.VITE_API_URL}/v1/...` ``. Щоб змінити адресу лише у себе, створіть файл `.env.local` з рядком `VITE_API_URL=...` (його не комітять) і перезапустіть `pnpm dev`.
+
+## 4. Корисні команди
+
+- `pnpm build` — перевірка типів і production-збірка в `dist/`; `pnpm preview` — запустити цю збірку.
+- `pnpm lint` — ESLint.
+- `pnpm test:unit` — unit-тести (Vitest). `pnpm test` запускає ще й e2e-тести Playwright, для них спершу потрібно `pnpm exec playwright install`.
+
+## Типові проблеми
+
+- **`pnpm` або `node` не знайдено** — закрийте й знову відкрийте термінал (і WebStorm/VS Code) після встановлення.
+- **`Port 5173 is in use`** — вже запущено інший `pnpm dev`; закрийте його або запустіть `pnpm dev --port 5174`.
+- **`Unsupported engine` чи дивні помилки під час `pnpm install`** — застара версія Node: `node -v` має бути 22.13 або новіше.
+- **Коміт відхилено з помилкою commitlint** (`subject may not be empty`, `type may not be empty`) — шаблон вимагає повідомлення у форматі [Conventional Commits](https://www.conventionalcommits.org): `feat: додати сторінку задач`, `fix: виправити форму входу`.
+
+## Що виправлено у форку
+
+- зламані імпорти після перейменування `utils.ts` → `utilities.ts` (без цього `pnpm dev` падав);
+- переклади вантажаться за абсолютною адресою й не ламаються на вкладених маршрутах (`/tasks/1`);
+- `.gitattributes`: на Windows файли отримують LF, і git-хуки (Husky) не ламаються через CRLF;
+- nginx у Docker-образі віддає `index.html` для будь-якої адреси застосунку;
+- плагін TanStack Router стоїть перед `react()`; типи `.env` відповідають самому `.env`; додано `VITE_API_URL`;
+- ESLint: увімкнено всі рекомендовані правила доступності (jsx-a11y); прибрано невикористаний `tailwind.config.js`;
+- зафіксовано версії Node (`engines`, `.nvmrc`) і pnpm (`packageManager`).
+
+---
+
 # Vite React Boilerplate
 
 ![](/public/vite-react-boilerplate.png)
