@@ -32,3 +32,6 @@ storybook-static
 
 # tests
 /coverage/
+
+# translations copied from src/assets/locales by rollup-plugin-copy (vite.config.ts)
+/public/locales/
