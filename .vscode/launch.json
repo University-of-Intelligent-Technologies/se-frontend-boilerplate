@@ -1,17 +1,27 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "program": "${file}"
-        }
-    ]
+	// Debugging the app in Chrome from VS Code:
+	// 1) start the dev server in a terminal: pnpm dev
+	// 2) Run and Debug (Ctrl+Shift+D) → "Debug in Chrome" → F5
+	// Breakpoints set in .ts/.tsx files under src/ are hit in the browser.
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "chrome",
+			"request": "launch",
+			"name": "Debug in Chrome",
+			"url": "http://localhost:5173",
+			"webRoot": "${workspaceFolder}"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug unit tests (Vitest)",
+			"autoAttachChildProcesses": true,
+			"program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+			"args": ["run", "src/"],
+			"smartStep": true,
+			"console": "integratedTerminal",
+			"skipFiles": ["<node_internals>/**"]
+		}
+	]
 }
