@@ -9,9 +9,10 @@ import tailwindcss from "@tailwindcss/vite";
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
+		// the TanStack Router plugin must come before react()
+		tanstackRouter({ target: "react" }),
 		react(),
 		tailwindcss(),
-		tanstackRouter(),
 		copy({
 			targets: [
 				{
