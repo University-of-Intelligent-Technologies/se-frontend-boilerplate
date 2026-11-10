@@ -1,50 +1,139 @@
-# Швидкий старт (Windows)
+# SE Frontend Boilerplate
 
-Це форк [vite-react-boilerplate](https://github.com/RicardoValdovinos/vite-react-boilerplate) для курсу «Конструювання програмного забезпечення». Що виправлено порівняно з оригіналом — у кінці цього розділу. Нижче, після лінії, — оригінальний README англійською.
+Шаблон фронтенду для курсу «Конструювання програмного забезпечення»: React 19, TypeScript, Vite, TanStack Router і Query, Zustand, React Hook Form + Zod, Tailwind CSS. Це форк [vite-react-boilerplate](https://github.com/RicardoValdovinos/vite-react-boilerplate) з виправленими помилками (перелік — у кінці інструкції). Пара до нього — бекенд [se-backend-boilerplate](https://github.com/University-of-Intelligent-Technologies/se-backend-boilerplate).
 
-## 1. Встановіть інструменти
+Нижче — інструкція українською; після лінії — оригінальний README англійською.
 
-- **Git for Windows** — <https://git-scm.com/download/win> (налаштування за замовчуванням підходять).
-- **Node.js 24 LTS** — <https://nodejs.org> (підійде й 22.13+). Перевірка в новому терміналі: `node -v`.
-- **pnpm** — у новому терміналі: `npm install -g pnpm@10`. Перевірка: `pnpm -v`.
-  (Альтернатива — `corepack enable`, але на Windows для цього потрібен термінал «від імені адміністратора».)
+## 1. Що встановити
 
-## 2. Склонуйте й запустіть
+| Інструмент | Windows | macOS / Linux |
+|---|---|---|
+| **Git** | [Git for Windows](https://git-scm.com/download/win), налаштування за замовчуванням | macOS: `xcode-select --install` або `brew install git`; Linux: пакет `git` |
+| **Node.js 24 LTS** (мінімум 22.13) | інсталятор з [nodejs.org](https://nodejs.org) | інсталятор з [nodejs.org](https://nodejs.org) або [nvm](https://github.com/nvm-sh/nvm): `nvm install 24` |
+| **pnpm 10** | у новому терміналі: `npm install -g pnpm@10` | те саме: `npm install -g pnpm@10` |
+
+Перевірка в **новому** терміналі: `git --version`, `node -v` (v22.13 або новіше), `pnpm -v` (10.x).
+
+Редактор — WebStorm (безкоштовний для студентів) або VS Code.
+
+## 2. Клонування
 
 ```bash
-git clone <адреса цього репозиторію>
-cd vite-react-boilerplate
+git clone https://github.com/University-of-Intelligent-Technologies/se-frontend-boilerplate.git
+cd se-frontend-boilerplate
+```
+
+Саме клонуйте, а не завантажуйте ZIP: без теки `.git` не встановляться git-хуки (див. розділ 8).
+
+## 3. Запуск
+
+```bash
 pnpm install
 pnpm dev
 ```
 
-Відкрийте <http://localhost:5173>: має з'явитися привітання й кнопка `translate`, що перемикає мову.
+Відкрийте <http://localhost:5173>. Має з'явитися синя сторінка «Hello, world!»; кнопка `translate` перемикає текст на «¡Hola, Mundo!». Унизу ліворуч — кнопка devtools TanStack Router, праворуч — TanStack Query: вони є лише в режимі розробки.
 
-## 3. Адреса бекенду
+Зупинити сервер — `Ctrl+C` у терміналі. Після `git pull` спершу знову виконайте `pnpm install`: могли змінитися залежності.
 
-Адреса API задана в `.env`: `VITE_API_URL="http://localhost:4000"` — це бекенд [typeorm-express-typescript](https://github.com/mkosir/typeorm-express-typescript), його маршрути починаються з `/v1`. У коді: `` `${import.meta.env.VITE_API_URL}/v1/...` ``. Щоб змінити адресу лише у себе, створіть файл `.env.local` з рядком `VITE_API_URL=...` (його не комітять) і перезапустіть `pnpm dev`.
+Де що лежить: сторінки — `src/pages`, маршрути — `src/routes` (за назвою файлу, див. лекцію «Маршрутизація у SPA»; `src/routeTree.gen.ts` генерується сам, руками не редагується), переклади — `src/assets/locales`.
 
-## 4. Корисні команди
+## 4. Дебаг
 
-- `pnpm build` — перевірка типів і production-збірка в `dist/`; `pnpm preview` — запустити цю збірку.
-- `pnpm lint` — ESLint.
-- `pnpm test:unit` — unit-тести (Vitest). `pnpm test` запускає ще й e2e-тести Playwright, для них спершу потрібно `pnpm exec playwright install`.
+**У браузері.** `F12` → вкладка **Sources** → `Ctrl+P` → `Home.tsx` → клікніть номер рядка в `onTranslateButtonClick`, щоб поставити брейкпоінт → натисніть `translate`: виконання зупиниться, ліворуч видно значення змінних. Дев-сервер віддає source maps, тож ви бачите свій TypeScript, а не зібраний код. Для дерева компонентів, props і стану встановіть розширення [React Developer Tools](https://react.dev/learn/react-developer-tools).
 
-## Типові проблеми
+**WebStorm.** Запустіть `pnpm dev`, далі *Run → Edit Configurations → + → JavaScript Debug*, URL `http://localhost:5173` → *Debug*. Брейкпоінти ставте прямо у файлах `src/*.tsx`.
 
-- **`pnpm` або `node` не знайдено** — закрийте й знову відкрийте термінал (і WebStorm/VS Code) після встановлення.
-- **`Port 5173 is in use`** — вже запущено інший `pnpm dev`; закрийте його або запустіть `pnpm dev --port 5174`.
-- **`Unsupported engine` чи дивні помилки під час `pnpm install`** — застара версія Node: `node -v` має бути 22.13 або новіше.
-- **Коміт відхилено з помилкою commitlint** (`subject may not be empty`, `type may not be empty`) — шаблон вимагає повідомлення у форматі [Conventional Commits](https://www.conventionalcommits.org): `feat: додати сторінку задач`, `fix: виправити форму входу`.
+**VS Code.** Запустіть `pnpm dev`, далі *Run and Debug* (`Ctrl+Shift+D`) → **Debug in Chrome** → `F5`. Конфігурація вже є в `.vscode/launch.json`; там же **Debug unit tests (Vitest)**.
 
-## Що виправлено у форку
+## 5. З'єднання з бекендом
 
-- зламані імпорти після перейменування `utils.ts` → `utilities.ts` (без цього `pnpm dev` падав);
-- переклади вантажаться за абсолютною адресою й не ламаються на вкладених маршрутах (`/tasks/1`);
-- `.gitattributes`: на Windows файли отримують LF, і git-хуки (Husky) не ламаються через CRLF;
-- nginx у Docker-образі віддає `index.html` для будь-якої адреси застосунку;
-- плагін TanStack Router стоїть перед `react()`; типи `.env` відповідають самому `.env`; додано `VITE_API_URL`;
+Адреса API задана в `.env`: `VITE_API_URL="http://localhost:4000"` — це [se-backend-boilerplate](https://github.com/University-of-Intelligent-Technologies/se-backend-boilerplate), його маршрути починаються з `/v1`. Щоб змінити адресу лише у себе, створіть поруч файл `.env.local` з рядком `VITE_API_URL=...` (він у `.gitignore`) і перезапустіть `pnpm dev`.
+
+Вхід і запит із токеном:
+
+```ts
+const api = import.meta.env.VITE_API_URL;
+
+const login = await fetch(`${api}/v1/auth/login`, {
+	method: "POST",
+	headers: { "Content-Type": "application/json" },
+	body: JSON.stringify({ email: "admin@admin.com", password: "pass1" }), // користувач із сидів бекенду
+});
+// у шаблоні ts-reset: json() повертає unknown, тож тип відповіді вказуємо явно
+const { data: token } = (await login.json()) as { data: string }; // "Bearer eyJ..."
+
+const users = await fetch(`${api}/v1/users`, { headers: { Authorization: token } });
+const freshToken = users.headers.get("token"); // бекенд оновлює токен у кожній відповіді
+```
+
+Бекенд дозволяє запити з інших адрес (CORS) і відкриває браузеру заголовок `token`. Якщо в консолі `Failed to fetch` чи `ERR_CONNECTION_REFUSED` — бекенд не запущено або він на іншому порту.
+
+## 6. Збірка й Docker
+
+```bash
+pnpm build      # перевірка типів + production-збірка в dist/
+pnpm preview    # запустити збірку: http://localhost:4173
+```
+
+Docker-образ (nginx) пакує вже зібрану теку `dist/`, тож спершу `pnpm build`:
+
+```bash
+pnpm build
+docker build -t se-frontend .
+docker run --rm -p 8080:80 se-frontend   # http://localhost:8080
+```
+
+Будь-яка адреса застосунку (наприклад, `/tasks/1` після оновлення сторінки) віддає `index.html`, і далі сторінку малює роутер.
+
+## 7. Тести
+
+- `pnpm test:unit` — unit-тести (Vitest + Testing Library); приклад — `src/pages/Home.test.tsx`.
+- `pnpm test:e2e` — e2e-тести (Playwright); перед першим запуском — `pnpm exec playwright install`. Приклад у `e2e/` відкриває playwright.dev, тож потрібен інтернет.
+- `pnpm test` — обидва набори.
+
+## 8. Коміти
+
+Під час `pnpm install` вмикаються git-хуки (Husky): кожне повідомлення коміту перевіряє commitlint за форматом [Conventional Commits](https://www.conventionalcommits.org) — `тип: опис`:
+
+```bash
+git commit -m "feat: add the tasks page"
+git commit -m "fix: show an error when login fails"
+```
+
+Типи: `feat` (нова можливість), `fix` (виправлення), `docs`, `style`, `refactor`, `test`, `chore`. Повідомлення без типу (`git commit -m "update"`) буде відхилено з помилками `subject may not be empty` / `type may not be empty`. Якщо не хочете згадувати формат — `git add .`, потім `pnpm commitizen`: майстер сам запитає тип і опис.
+
+## 9. Корисні команди
+
+| Команда | Що робить |
+|---|---|
+| `pnpm dev` | дев-сервер з гарячим перезавантаженням |
+| `pnpm build` / `pnpm preview` | production-збірка / її запуск |
+| `pnpm lint` / `pnpm lint:fix` | ESLint / з автовиправленням |
+| `pnpm format` | Prettier для `src/` |
+| `pnpm test:unit` | unit-тести |
+| `pnpm commitizen` | майстер повідомлення коміту |
+
+## 10. Типові проблеми
+
+- **`pnpm`, `node` або `git` не знайдено** — закрийте й знову відкрийте термінал (і WebStorm/VS Code) після встановлення.
+- **Windows PowerShell: `pnpm.ps1 cannot be loaded because running scripts is disabled`** (або те саме з `npm.ps1`) — один раз виконайте `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` і відкрийте термінал заново. Або працюйте в Git Bash чи терміналі WebStorm.
+- **`WARN Unsupported engine: wanted: {"node":">=22.13"}`** — стара версія Node: встановіть Node 24 LTS, відкрийте новий термінал, перевірте `node -v`, потім знову `pnpm install`.
+- **`Error: Port 5173 is already in use`** — уже запущено інший `pnpm dev` (можливо, в іншому вікні); закрийте його або запустіть `pnpm dev --port 5174`.
+- **Коміт відхилено (`husky - commit-msg script failed`)** — повідомлення не у форматі `тип: опис`, див. розділ 8.
+- **Запити до API падають** — запущено бекенд? Збігається порт у `VITE_API_URL`? Після зміни `.env`/`.env.local` перезапустіть `pnpm dev`.
+
+## 11. Чим цей форк відрізняється від оригіналу
+
+- виправлено імпорти після перейменування `utils.ts` → `utilities.ts` (без цього `pnpm dev` падав);
+- переклади вантажаться за абсолютною адресою й не ламаються на вкладених маршрутах (`/tasks/1`); запитуються лише мови, для яких є файли (без помилок у консолі для `uk`);
+- `.gitattributes`: на Windows файли отримують LF, і git-хуки не ламаються через CRLF;
+- прибрано інтерактивний майстер commitizen із git-хука (на Windows блокував коміти); commitlint лишився;
+- nginx у Docker-образі віддає `index.html` для адрес застосунку і 404 для відсутніх файлів збірки;
+- плагін TanStack Router стоїть перед `react()`; `routeTree.gen.ts` збережено у форматі генератора, тож він не «змінюється» після першого запуску;
+- типи `.env` відповідають самому `.env`; додано `VITE_API_URL` для бекенду курсу;
 - ESLint: увімкнено всі рекомендовані правила доступності (jsx-a11y); прибрано невикористаний `tailwind.config.js`;
+- виправлено налаштування Vitest і додано приклад unit-тесту; конфігурації дебагу для VS Code;
 - зафіксовано версії Node (`engines`, `.nvmrc`) і pnpm (`packageManager`).
 
 ---
